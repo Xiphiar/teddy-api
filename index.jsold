@@ -1,0 +1,58 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
+const path = require("path");
+
+const app = express();
+const port = process.env.PORT || 3176;
+const sslPort = process.env.PORT || 3443;
+const poolsRouter = require('./routes/pools');
+const contractsRouter = require('./routes/contracts');
+const tokensRouter = require('./routes/tokens');
+
+
+const helmet = require('helmet');
+
+
+var sslOptions = {
+  key: fs.readFileSync(path.resolve(__dirname, "./key.pem")),
+  cert: fs.readFileSync(path.resolve(__dirname, "./cert.pem"))
+};
+
+
+
+app.use(bodyParser.json());
+app.use(helmet());
+
+app.use(cors());
+
+app.use('/pools', poolsRouter);
+app.use('/contracts', contractsRouter);
+app.use('/tokens', tokensRouter);
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
+app.get('/', (req, res) => {
+  res.json({'message': 'ok'});
+})
+
+//app.listen(port, () => {
+//  console.log(`Example app listening at http://localhost:${port}`)
+//});
+
+http.createServer(app).listen(port);
+console.log(`Example app listening at http://localhost:${port}`)
+https.createServer(sslOptions, app).listen(sslPort);
+console.log(`Example app listening at http://localhost:${sslPort}`)
+
+
+
+module.exports = app;
