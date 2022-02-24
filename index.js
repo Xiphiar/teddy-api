@@ -26,6 +26,8 @@ import fs from 'fs';
 import teddyRouter from './routes/teddys.js';
 import helmet from 'helmet';
 
+import rarityRouter from './routes/rarity.js';
+
 //process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 const app = express();
@@ -64,6 +66,7 @@ app.use(cors({
 
 
 app.use('/teddy', teddyRouter);
+app.use('/rarity', rarityRouter);
 
 app.use(bodyParser.json());
 app.use(

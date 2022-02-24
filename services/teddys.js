@@ -11,6 +11,7 @@ import { getOffset, emptyOrRows } from '../helper.js';
 import config from '../config.js';
 import app from '../index.js';
 import request from 'request';
+import { getTotal } from './rarity.js'
 
 const regex = /[^A-Za-z0-9, ]/g;
 
@@ -61,20 +62,18 @@ export async function getMultiple(page = 1, sort = "numberasc", base = null){
 
 export async function getSingle(input){
       const rows = await query(
-        `Select *
-        from pub_data
+        `Select id, pub_base_design as base_design, pub_url, burnt
+        from all_data
         where id like ?`,
         [input]
       );
       const data = emptyOrRows(rows);
-    
+
       if ( data.length === 0 ) {
-          var returnEr = {'message': 'unknown_input'};
+          var returnEr = {'error': 'unknown_input'};
           return(returnEr);
       } else {
-          return {
-            data
-          }
+          return data[0];
       }
 }
 
