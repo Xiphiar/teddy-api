@@ -45,7 +45,7 @@ var sslOptions = {
 app.use(bodyParser.json());
 app.use(helmet());
 
-var allowedOrigins = ['http://staging2.scrtteddy.com', 'https://scrthost.xiphiar.com', 'https://triviumnode.com', 'http://localhost:8085', 'http://localhost:8082', 'http://localhost:3000', 'http://localhost:3001', 'http://anode1.trivium.xiphiar.com:3000'];
+var allowedOrigins = ['http://teddysite.xiphiar.com', 'https://scrthost.xiphiar.com', 'https://triviumnode.com', 'http://localhost:8085', 'http://localhost:8082', 'http://localhost:3000', 'http://localhost:3001', 'http://anode1.trivium.xiphiar.com:3000'];
 
 app.use(cors({
   origin: function(origin, callback){

@@ -48,7 +48,7 @@ export async function getMultiple(page = 1, sort = "numberasc", base = null){
     ${baseQuery}
     ${sortQuery}
     LIMIT ?,?`, 
-    [offset, config.listPerPage]
+    [offset.toString(), config.listPerPage.toString()]
   );
   const data = emptyOrRows(rows);
   const meta = {page};
