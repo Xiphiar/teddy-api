@@ -62,7 +62,8 @@ export async function getMultiple(page = 1, sort = "numberasc", base = null){
 
 export async function getSingle(input){
       const rows = await query(
-        `Select id, pub_base_design as base_design, pub_url, burnt
+        `Select id, pub_base_design as base_design, pub_url, burnt,
+        RANK() OVER (ORDER BY total_rarity DESC) 'rank'
         from all_data
         where id like ?`,
         [input]
