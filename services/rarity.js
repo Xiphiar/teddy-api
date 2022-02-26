@@ -33,25 +33,33 @@ export async function getCount(input){
 
 export async function getRarity(input){
   
-
-  const rows = await query(
-    "CALL getCount(?);",
-    [input],
-  );
-  const data = emptyOrRows(rows);
-  const count = parseInt(data[0][0].count);
-  console.log(count, data)
-  if ( count === 0 ) {
-      var returnEr = {'message': 'unknown_input'};
-      return(returnEr);
+  if (input.includes("Parody Character")){
+    const count = 1;
+    const total = await getTotal();
+    const score = total/count;
+    const percent = count/total;
+    return {
+      total, count, percent, score
+    }
   } else {
-      
-      const total = await getTotal();
-      const score = total/count;
-      const percent = count/total;
-      return {
-        total, count, percent, score
-      }
+    const rows = await query(
+      "CALL getCount(?);",
+      [input],
+    );
+    const data = emptyOrRows(rows);
+    const count = parseInt(data[0][0].count);
+    console.log(count, data)
+    if ( count === 0 ) {
+        var returnEr = {'message': 'unknown_input'};
+        return(returnEr);
+    } else {
+        const total = await getTotal();
+        const score = total/count;
+        const percent = count/total;
+        return {
+          total, count, percent, score
+        }
+    }
   }
 }
 
