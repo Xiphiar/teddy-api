@@ -65,7 +65,7 @@ export async function getRarity(input){
 
 export async function getTotal(){
   const rows = await query(
-    `SELECT COUNT("1") as total FROM all_data WHERE burnt = 0;`,
+    `SELECT COUNT(1) as total FROM all_data WHERE burnt = 0;`,
   );
   const data = emptyOrRows(rows);
   if ( data.length === 0 ) {
