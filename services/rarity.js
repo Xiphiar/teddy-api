@@ -7,7 +7,7 @@ const app = require('../index.js');
 var request = require('request');
 */
 import { query } from './db.js';
-import { getOffset, emptyOrRows } from '../helper.js';
+import { getOffset, emptyOrRows } from '../utils/helper.js';
 import config from '../config.js';
 import app from '../index.js';
 import request from 'request';
