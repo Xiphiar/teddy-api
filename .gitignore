@@ -6,6 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
+.env.mainnet
+.env.testnet
 
 # Runtime data
 pids

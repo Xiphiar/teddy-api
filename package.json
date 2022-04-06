@@ -5,12 +5,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node -r dotenv/config index.js",
+    "start:testnet": "node -r dotenv/config index.js dotenv_config_path=.env.testnet",
+    "start:mainnet": "node -r dotenv/config index.js dotenv_config_path=.env.mainnet",
     "build": "npm run build:js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tendermint/sig": "^0.6.0",
+    "axios": "^0.26.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -19,7 +23,8 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "path": "^0.12.7",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "secretjs": "^1.2.0-beta.57"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"

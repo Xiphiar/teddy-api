@@ -39,7 +39,35 @@ async function pquery(sql, params) {
   });
 }
 */
- 
+
+async function createTokenTable() {
+  /*const sql = `CREATE TABLE IF NOT EXISTS mtc.gold_tokens (
+    token_sn INT(5) NOT NULL ,
+    teddy_id INT(5) NOT NULL ,
+    recipient VARCHAR(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL ,
+    issuer VARCHAR(60) NOT NULL ,
+    notes VARCHAR(500) NULL ,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+    PRIMARY KEY (token_sn));`*/
+
+    const sql=`CREATE TABLE IF NOT EXISTS gold_tokens (
+      token_id int(5) NOT NULL,
+      token_sn INT(5) NOT NULL,
+      teddy_id int(5) NOT NULL,
+      recipient varchar(60) NOT NULL,
+      issuer varchar(60) NOT NULL,
+      notes varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+      date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (token_id),
+      UNIQUE KEY teddy_id (teddy_id),
+      UNIQUE KEY token_sn (token_sn)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+  await query(sql)
+}
+
+export async function setupDb() {
+  createTokenTable();
+}
 
 export async function query(sql, params) {
   console.log("ccc",process.env.DBHOST,process.env.DBUSER,process.env.DBPASS,process.env.DBNAME);

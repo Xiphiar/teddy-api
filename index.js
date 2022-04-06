@@ -23,12 +23,21 @@ import morgan from "morgan";
 import http from 'http';
 import https from 'https';
 import fs from 'fs';
-import teddyRouter from './routes/teddys.js';
 import helmet from 'helmet';
 
-import rarityRouter from './routes/rarity.js';
+import { setupDb } from './services/db.js';
 
-//process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+import rarityRouter from './routes/rarity.js';
+import teddyRouter from './routes/teddys.js';
+import goldTokenRouter from './routes/gold_token.js';
+
+/*
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+process.env['HTTP_PROXY'] = 'http://127.0.0.1:8866';
+process.env['HTTPS_PROXY'] = 'http://127.0.0.1:8866';
+*/
+
+setupDb();
 
 const app = express();
 const port = process.env.PORT || 9176;
@@ -67,6 +76,7 @@ app.use(cors({
 
 app.use('/teddy', teddyRouter);
 app.use('/rarity', rarityRouter);
+app.use('/mintGoldToken', goldTokenRouter);
 
 app.use(bodyParser.json());
 app.use(
@@ -78,6 +88,12 @@ app.use(
 
 app.get('/', (req, res) => {
   res.json({'message': 'ok'});
+})
+
+
+app.use((err, req, res, next) => {
+  console.error("err handler", err)
+  res.status(500).json({message: err})
 })
 
 //app.listen(port, () => {
