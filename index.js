@@ -24,6 +24,7 @@ import http from 'http';
 import https from 'https';
 import fs from 'fs';
 import helmet from 'helmet';
+import wcmatch from 'wildcard-match'
 
 import { setupDb } from './services/db.js';
 
@@ -56,7 +57,24 @@ var sslOptions = {
 app.use(bodyParser.json());
 app.use(helmet());
 
-var allowedOrigins = ['http://teddysite.xiphiar.com', 'https://midnightteddyclub.art', 'http://teddytest.xiphiar.com', 'https://www.midnightteddyclub.art', 'http://localhost:8082', 'http://localhost:3000', 'http://localhost:3001', 'http://anode1.trivium.xiphiar.com:3000'];
+const allowedOrigins = [
+  '*.xiphiar.com',
+  'midnightteddyclub.art',
+  '*.midnightteddyclub.art',
+  'teddy-site.pages.dev',
+  '*.teddy-site.pages.dev',
+  'teddy-admin.pages.dev',
+  '*.teddy-admin.pages.dev',
+  'localhost:3000',
+  'localhost:3001'
+];
+
+const matchDomain = wcmatch(allowedOrigins, { separator: '.' })
+
+console.log(matchDomain('https://1539a835.teddy-site.pages.dev'.replace(/^https?:\/\//, '')));
+console.log(matchDomain('https://midnightteddyclub.art'.replace(/^https?:\/\//, '')));
+console.log(matchDomain('https://www.midnightteddyclub.art'.replace(/^https?:\/\//, '')));
+console.log(matchDomain('https://teddy-admin.pages.dev'.replace(/^https?:\/\//, '')));
 
 app.use(cors({
   origin: function(origin, callback){
@@ -65,7 +83,8 @@ app.use(cors({
     // (like mobile apps or curl requests)
     if(!origin) return callback(null, true);
 
-    if(allowedOrigins.indexOf(origin) === -1) {
+    //if(allowedOrigins.indexOf(origin) === -1) {
+    if (!matchDomain(origin.replace(/^https?:\/\//, ''))){
       var msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
@@ -78,18 +97,9 @@ app.use('/teddy', teddyRouter);
 app.use('/rarity', rarityRouter);
 app.use('/mintGoldToken', goldTokenRouter);
 
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-
-
 app.get('/', (req, res) => {
   res.json({'message': 'ok'});
 })
-
 
 app.use((err, req, res, next) => {
   console.error("err handler", err)
