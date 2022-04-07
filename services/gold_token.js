@@ -23,23 +23,20 @@ const secretjs = await SecretNetworkClient.create({
 const authorized = ["secret14fa9jm9g5mjs35yxarh057lesy4zszw5gavcun","secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9pt55nzz"]
 
 export async function mintToken (input) {
-
+  const signature = JSON.parse(input.signature)
   //verify address is authorized
-  const address = base64PubkeyToAddress(input.with_permit.permit.signature.pub_key.value, "secret")
+  const address = base64PubkeyToAddress(signature.pub_key.value, "secret")
   if (!authorized.includes(address)) throw `${address} is not authorized to perform this function.`
 
-  //verify permit allows minting
-  if (!input.with_permit.permit.params.permissions.includes("mint")) throw "Provided permit does not authorize Minting."
-
   //verify recipient is present
-  const recipient = input.with_permit.query.mint.recipient
+  const recipient = input.recipient
   if (!recipient) throw "Request does not include a recipient address.";
 
   //verify teddy ID is present and valid
-  const teddyId = parseInt(input.with_permit.query.mint.nft_id)
-  if (!teddyId || teddyId > 3030 || teddyId < 1) throw "Request does not include a Teddy ID or provided ID is invalid.";
+  const teddyId = parseInt(input.nft_id)
+  if (!input.nft_id | !teddyId || teddyId > 3030 || teddyId < 1) throw "Request does not include a Teddy ID or provided ID is invalid.";
 
-  const notes = input.with_permit.query.mint.notes || null
+  const notes = input.notes || null
 
   // unsigned permit to verify
   const permitTx = {
@@ -52,11 +49,14 @@ export async function mintToken (input) {
     },
     msgs: [
       {
-        type: "query_permit", // Must be "query_permit"
+        type: "mint_ticket", // Must be "query_permit"
         value: {
-          permit_name: input.with_permit.permit.params.permit_name,
-          allowed_destinations: input.with_permit.permit.params.allowed_destinations,
-          permissions: input.with_permit.permit.params.permissions,
+          permit_name: input.permit_name,
+          allowed_destinations: JSON.parse(input.allowed_destinations),
+          mint_props: {
+            teddy_id: teddyId.toString(),
+            recipient: recipient.trim()
+          }
         },
       },
     ],
@@ -64,7 +64,7 @@ export async function mintToken (input) {
   }
 
   //verify signature
-  if (!sig.verifySignature(permitTx, input.with_permit.permit.signature)) throw "Provided permit was unable to be verified.";
+  if (!sig.verifySignature(permitTx, signature)) throw "Provided permit was unable to be verified.";
 
   //verify teddy ID has not already been issued a token
   if (await inDb(teddyId)) throw `Golden ticket has already been issued for teddy ID ${teddyId}.`

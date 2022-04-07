@@ -55,6 +55,7 @@ var sslOptions = {
 //app.use(morgan('dev'));
 
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }))
 app.use(helmet());
 
 const allowedOrigins = [
