@@ -75,7 +75,7 @@ export async function mintToken (input) {
   const mintMsg = {
     mint_nft: {
         owner: recipient,
-        token_id: tokenSn,
+        token_id: tokenSn.toString(),
         //quantity: 1,
         //mint_run_id: "1",
         public_metadata: {
@@ -90,7 +90,7 @@ export async function mintToken (input) {
         },
     }
   } 
-  console.log(mintMsg)
+  //console.log(JSON.stringify(mintMsg, null, 2))
 
   const tx = await secretjs.tx.compute.executeContract(
     {
@@ -106,7 +106,7 @@ export async function mintToken (input) {
     },
   );
 
-  console.log(tx)
+  console.log(tx.transactionHash)
   if (tx.code) throw `Transaction Error: ${tx.rawLog}`
   
   let tokenId;
