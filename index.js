@@ -31,6 +31,8 @@ import { setupDb } from './services/db.js';
 import rarityRouter from './routes/rarity.js';
 import teddyRouter from './routes/teddys.js';
 import goldTokenRouter from './routes/gold_token.js';
+import addDataRouter from './routes/add_data.js';
+
 
 /*
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
@@ -97,6 +99,7 @@ app.use(cors({
 app.use('/teddy', teddyRouter);
 app.use('/rarity', rarityRouter);
 app.use('/mintGoldToken', goldTokenRouter);
+app.use('/addData', addDataRouter);
 
 app.get('/', (req, res) => {
   res.json({'message': 'ok'});

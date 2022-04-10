@@ -48,7 +48,7 @@ export async function getRarity(input){
     );
     const data = emptyOrRows(rows);
     const count = parseInt(data[0][0].count);
-    console.log(count, data)
+    //console.log(count, data)
     if ( count === 0 ) {
         var returnEr = {'message': 'unknown_input'};
         return(returnEr);
