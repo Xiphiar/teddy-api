@@ -15,8 +15,9 @@ export async function addTeddy (input) {
   if (!authorized.includes(address)) throw `${address} is not authorized to perform this function.`
 
   //verify teddy ID is present and valid
-  const teddyId = parseInt(input.nft_id || 0)
-  if (!input.nft_id | !teddyId || teddyId < 1) throw "Request does not include a Teddy ID or provided ID is invalid.";
+  const teddyId = input.nft_id?.trim()
+  console.log(teddyId)
+  if (!input.nft_id | !teddyId || parseInt(teddyId) < 1) throw "Request does not include a Teddy ID or provided ID is invalid.";
 
   //verify base design is present and valid
   if (!input.base_design || !input.base_design.trim()) throw "Request does not include a base design.";
