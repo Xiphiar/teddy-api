@@ -65,7 +65,7 @@ export async function getSingle(input){
         `Select id, pub_base_design as base_design, pub_url, burnt,
         (SELECT TeddyRank from (SELECT id, RANK() OVER (ORDER BY total_rarity DESC) 'TeddyRank' FROM all_data) as rankdata WHERE id = ?) as teddyrank
         from all_data
-        where id like ?`,
+        where id = ?`,
         [input, input]
       );
       const data = emptyOrRows(rows);

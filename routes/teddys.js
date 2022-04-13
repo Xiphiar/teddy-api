@@ -21,7 +21,7 @@ router.get('/', async function(req, res, next) {
 /* GET single contract */
 router.get('/:id', async function(req, res, next) {
   try {
-    res.json(await teddyService.getSingle(parseInt(req.params.id)));
+    res.json(await teddyService.getSingle(req.params.id.toString().trim()));
   } catch (err) {
     console.error(`Error while getting contract `, err.message);
     next(err);
