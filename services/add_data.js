@@ -32,6 +32,7 @@ export async function addTeddy (input) {
   const eyewear = input.eyewear || null
   const pubUrl = input.pub_url || null
   const daoValue = input.dao_value || null
+  const oneofone = parseInt(input["1of1"]) || 0
 
   // unsigned permit to verify
   const permitTx = {
@@ -59,13 +60,15 @@ export async function addTeddy (input) {
             body: body,
             eyewear: eyewear,
             pub_url: pubUrl,
-            dao_value: daoValue
+            dao_value: daoValue,
+            "1of1": oneofone
           }
         },
       },
     ],
     memo: "" // Must be empty
   }
+  //console.log(JSON.stringify(permitTx, null, 2))
 
   //verify signature
   if (!sig.verifySignature(permitTx, signature)) throw "Provided permit was unable to be verified.";
@@ -100,7 +103,8 @@ export async function addTeddy (input) {
     dao_value: daoValue,
     burnt: 0,
     pub_url: pubUrl,
-    pub_base_design: pubBaseDesign
+    pub_base_design: pubBaseDesign,
+    one_of_one: oneofone
 }
 
   try{
@@ -131,12 +135,12 @@ export async function addTeddy (input) {
   return {message: "OK"}
 }
 
-async function addTeddyToDB ({id, baseDesign, face = null, color = null, background = null, hand = null, head = null, body = null, eyewear = null, dao_value = null, burnt = 0, pub_url = null, pub_base_design = "Teddy-Bear"}) {
-    const sql = `INSERT INTO all_data(id, base_design, face, color, background, hand, head, body, eyewear, dao_value, burnt, pub_url, pub_base_design)
-                  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`
+async function addTeddyToDB ({id, baseDesign, face = null, color = null, background = null, hand = null, head = null, body = null, eyewear = null, dao_value = null, burnt = 0, pub_url = null, pub_base_design = "Teddy-Bear", one_of_one = 0}) {
+    const sql = `INSERT INTO all_data(id, base_design, face, color, background, hand, head, body, eyewear, dao_value, burnt, pub_url, pub_base_design, 1of1)
+                  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
     const rows = await query(
       sql,
-      [id, baseDesign, face, color, background, hand, head, body, eyewear, dao_value, burnt, pub_url, pub_base_design],
+      [id, baseDesign, face, color, background, hand, head, body, eyewear, dao_value, burnt, pub_url, pub_base_design, one_of_one],
       );
   const data = emptyOrRows(rows);
 }
