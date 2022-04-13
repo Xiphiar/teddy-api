@@ -70,7 +70,6 @@ export async function setupDb() {
 }
 
 export async function query(sql, params) {
-  console.log("ccc",process.env.DBHOST,process.env.DBUSER,process.env.DBPASS,process.env.DBNAME);
   //const connection = mysql.createConnection(config.db);
   const [results, ] = await pool.execute(sql, params);
   return results;

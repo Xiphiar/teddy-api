@@ -4,7 +4,7 @@ const router = express.Router();
 const teddySerevice = require('../services/teddy.js');
 */
 import express from 'express';
-import goldTokenService from '../services/gold_token.js';
+import addDataService from '../services/add_data.js';
 
 
 
@@ -18,10 +18,9 @@ router.post('/', async(req, res, next) => {
     if (!req.body.allowed_destinations) throw "Invalid permit format."
     if (!JSON.parse(req.body.allowed_destinations).includes(host))  throw "The provided permit does not allow access to this API."
 
-    console.log(host);
-    res.json(await goldTokenService.mintToken(req.body))
+    res.json(await addDataService.addTeddy(req.body))
   } catch (err) {
-    console.log("GOLD TOKEN ERROR: ", err.message || err)
+    console.log("ADD DATA ERROR: ", err.message || err)
     next(err);
   }
 })
