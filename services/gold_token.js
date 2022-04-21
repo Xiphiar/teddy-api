@@ -67,11 +67,11 @@ export async function mintToken (input) {
   if (!sig.verifySignature(permitTx, signature)) throw "Provided permit was unable to be verified.";
 
   //verify teddy ID has not already been issued a token
-  if (await inDb(teddyId)) throw `Golden ticket has already been issued for teddy ID ${teddyId}.`
+  if (await inDb(teddyId)) throw `Golden token has already been issued for teddy ID ${teddyId}.`
 
   const tokenSn = await getNextSnFromChain();
 
-  //# mint ticket to destination
+  //# mint token to destination
   const mintMsg = {
     mint_nft: {
         owner: recipient,
@@ -80,8 +80,8 @@ export async function mintToken (input) {
         //mint_run_id: "1",
         public_metadata: {
           extension: {
-            name: "MTC Golden Ticket",
-            image: "https://2js4ov65zeljocwwkl6a3xaezxudwlrqaq2tzkltht4rlv5sti.arweave.net/0mXHV93_JFpcK1lL8DdwEzeg7LjAENTypczz5Fdeymo"
+            name: "MTC Golden Token",
+            image: "https://arweave.net/Ilceg7u1bI8vSv9x4Gc8CFlo0_04ALy818I2bcdZFPg"
           }
         },
         serial_number: {
