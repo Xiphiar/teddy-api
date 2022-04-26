@@ -94,7 +94,7 @@ export async function mintToken (input) {
   const tx = await secretjs.tx.compute.executeContract(
     {
       sender: operatorAddress,
-      contract: process.env.TICKET_CONTRACT_ADDRESS,
+      contractAddress: process.env.TICKET_CONTRACT_ADDRESS,
       codeHash: process.env.TICKET_CONTRACT_HASH,
       msg: mintMsg
     },
