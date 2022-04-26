@@ -1215,10 +1215,10 @@ secp256k1@4.0.1:
     node-addon-api "^2.0.0"
     node-gyp-build "^4.2.0"
 
-secretjs@^1.2.0-beta.57:
-  version "1.2.0-beta.57"
-  resolved "https://registry.yarnpkg.com/secretjs/-/secretjs-1.2.0-beta.57.tgz#36e060123ef26ddb213bd034e0baaed3a319f677"
-  integrity sha512-vnLpdjtgQDuVO5l/P2pE7ffnnL8K+L7asl25cu9t4x4MBd/8E9ePmVz2d5BB9Q1QlNFEU6C+Ka5iCpi0KL63Iw==
+secretjs@^1.2.0-beta.66:
+  version "1.2.0-beta.66"
+  resolved "https://registry.yarnpkg.com/secretjs/-/secretjs-1.2.0-beta.66.tgz#8a8779910f924ebb8188a8e0ae7d40c7f15d7f66"
+  integrity sha512-ur0JzxxmKEO9XkstQLmzTaPKftXEn3ZSYQCJuHGBNlfUdPZmELXOg1nmfUHHoPbziPqPmR7MfpiLxyIoLl7Mww==
   dependencies:
     "@cosmjs/encoding" "0.27.1"
     "@cosmjs/math" "0.27.1"

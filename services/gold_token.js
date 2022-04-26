@@ -182,7 +182,7 @@ async function getNextSnFromChain(){
   };
 
   const {token_list} = await secretjs.query.compute.queryContract({
-    address: process.env.TICKET_CONTRACT_ADDRESS,
+    contractAddress: process.env.TICKET_CONTRACT_ADDRESS,
     codeHash: process.env.TICKET_CONTRACT_HASH, // optional but way faster
     query: all_tokens_query,
   });
@@ -198,7 +198,7 @@ async function getNextSnFromChain(){
   }
 
   const {nft_dossier} = await secretjs.query.compute.queryContract({
-    address: process.env.TICKET_CONTRACT_ADDRESS,
+    contractAddress: process.env.TICKET_CONTRACT_ADDRESS,
     codeHash: process.env.TICKET_CONTRACT_HASH, // optional but way faster
     query: info_query,
   });
