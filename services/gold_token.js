@@ -81,7 +81,7 @@ export async function mintToken (input) {
         public_metadata: {
           extension: {
             name: "MTC Golden Token",
-            image: "https://arweave.net/Ilceg7u1bI8vSv9x4Gc8CFlo0_04ALy818I2bcdZFPg"
+            image: "https://arweave.net/fdkmq_eikSaCFqZIcPtMVVVkuLSqr9SRfRxascsazXk"
           }
         },
         serial_number: {
