@@ -20,7 +20,8 @@ const secretjs = await SecretNetworkClient.create({
   chainId: process.env.CHAIN_ID,
 });
 
-const authorized = ["secret14fa9jm9g5mjs35yxarh057lesy4zszw5gavcun","secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9pt55nzz",'secret1kw60atrdvqsjqcwlheuuy9ch6wyljnydtz0jcd' ]
+const authorized = process.env.AUTHORIZED.split(',');
+console.log("Authorized for Gold Ticket: ", authorized);
 
 export async function mintToken (input) {
   const signature = JSON.parse(input.signature)
