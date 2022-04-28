@@ -32,6 +32,7 @@ import rarityRouter from './routes/rarity.js';
 import teddyRouter from './routes/teddys.js';
 import goldTokenRouter from './routes/gold_token.js';
 import addDataRouter from './routes/add_data.js';
+import verifyDiscordRouter from './routes/verify_discord.js';
 
 
 /*
@@ -100,6 +101,7 @@ app.use('/teddy', teddyRouter);
 app.use('/rarity', rarityRouter);
 app.use('/mintGoldToken', goldTokenRouter);
 app.use('/addData', addDataRouter);
+app.use('/verifydiscord', verifyDiscordRouter);
 
 app.get('/', (req, res) => {
   res.json({'message': 'ok'});
