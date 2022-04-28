@@ -60,7 +60,7 @@ router.post("/", async (req, res, next) => {
             response.msg = "You are already verified!";
             response.msgType = "info";
           } else {
-            member.roles.add(roleToAdd);
+            await member.roles.add(roleToAdd);
 
             const msgEmbed = new MessageEmbed()
               .setColor("#000000")
@@ -75,7 +75,7 @@ router.post("/", async (req, res, next) => {
               .setTimestamp()
               .setFooter({ text: "MTC verification " });
 
-            member.send({ embeds: [msgEmbed] });
+            await member.send({ embeds: [msgEmbed] });
             response.msg = "Welcome to the MTC!!! See your new role on the discord";
             response.msgType = "success";
           }
