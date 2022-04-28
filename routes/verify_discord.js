@@ -107,7 +107,7 @@ const queryMetadata = async (tokenId) => {
 
   const data = await client.query.compute.queryContract({
     contractAddress: process.env.NFT_CONTRACT_ADDRESS,
-    //codeHash: process.env., // optional but way faster
+    codeHash: process.env.NFT_CONTRACT_HASH, // optional but way faster
     query: msg,
   });
   return data;
