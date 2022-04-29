@@ -66,7 +66,7 @@ router.post("/", async (req, res, next) => {
               .setColor("#000000")
               .setTitle("Midnight Teddy Club Verification")
               .setDescription(
-                "Congratulations!!! You have been verified and now have access to the Secrety Society as a Teddy Owner!"
+                "Congratulations!!! You have been verified and now have access to the Secret Society as a Teddy Owner!"
               )
               .setAuthor({
                 name: "MTCVerifyBot",
