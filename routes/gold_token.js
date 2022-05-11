@@ -26,4 +26,14 @@ router.post('/', async(req, res, next) => {
   }
 })
 
+router.get('/:id', async(req, res, next) => {
+  console.log('running get')
+  try {
+    res.json({ gold_token_issued: await goldTokenService.inDb(req.params.id)})
+  } catch (err) {
+    console.log("GOLD TOKEN CHECK ERROR: ", err.message || err)
+    next(err);
+  }
+})
+
 export default router;

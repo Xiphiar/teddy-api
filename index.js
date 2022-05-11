@@ -100,6 +100,7 @@ app.use(cors({
 app.use('/teddy', teddyRouter);
 app.use('/rarity', rarityRouter);
 app.use('/mintGoldToken', goldTokenRouter);
+app.use('/checkGoldToken', goldTokenRouter);
 app.use('/addData', addDataRouter);
 app.use('/verifydiscord', verifyDiscordRouter);
 

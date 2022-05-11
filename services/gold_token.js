@@ -208,5 +208,6 @@ async function getNextSnFromChain(){
 }
 
 export default {
-  mintToken
+  mintToken,
+  inDb
 }
