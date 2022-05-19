@@ -68,12 +68,13 @@ async function createTokenTable() {
 async function createFactoryTable() {
   const sql=`CREATE TABLE IF NOT EXISTS factory_orders (
     id int(12) NOT NULL AUTO_INCREMENT,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     owner varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     tx_hash varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-    hash_verified BOOLEAN NOT NULL DEFAULT FALSE,
     teddy1 varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     teddy2 varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     teddy3 varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    name varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     final_base varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     final_face varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     final_color varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
@@ -83,14 +84,18 @@ async function createFactoryTable() {
     final_body varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     final_eyewear varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     notes varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+    completed int(1) NOT NULL DEFAULT 0,
+    minted_id varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     PRIMARY KEY (id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
   await query(sql)
 }
 
 export async function setupDb() {
+  console.log("Creating Tables...")
   await createTokenTable();
   await createFactoryTable();
+  console.log("Done!")
 }
 
 export async function query(sql, params) {
