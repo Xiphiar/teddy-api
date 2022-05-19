@@ -18,7 +18,6 @@ router.post('/', async(req, res, next) => {
     if (!req.body.allowed_destinations) throw "Invalid permit format."
     if (!JSON.parse(req.body.allowed_destinations).includes(host))  throw "The provided permit does not allow access to this API."
 
-    console.log(host);
     res.json(await goldTokenService.mintToken(req.body))
   } catch (err) {
     console.log("GOLD TOKEN ERROR: ", err.message || err)

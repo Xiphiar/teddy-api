@@ -76,10 +76,10 @@ const allowedOrigins = [
 
 const matchDomain = wcmatch(allowedOrigins, { separator: '.' })
 
-console.log(matchDomain('https://1539a835.teddy-site.pages.dev'.replace(/^https?:\/\//, '')));
-console.log(matchDomain('https://midnightteddyclub.art'.replace(/^https?:\/\//, '')));
-console.log(matchDomain('https://www.midnightteddyclub.art'.replace(/^https?:\/\//, '')));
-console.log(matchDomain('https://teddy-admin.pages.dev'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://1539a835.teddy-site.pages.dev'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://midnightteddyclub.art'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://www.midnightteddyclub.art'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://teddy-admin.pages.dev'.replace(/^https?:\/\//, '')));
 
 app.use(cors({
   origin: function(origin, callback){
