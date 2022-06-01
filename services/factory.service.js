@@ -39,6 +39,10 @@ export async function factoryOrder (input) {
   const notes = input.notes || null
   const name = input.name || null
 
+  const goldToken = input.goldToken || null
+
+  //console.log("input", input)
+
   if (!tx_hash) throw "Something went wrong: Request did not include an TX Hash."
   if (!teddy1) throw "Something went wrong: Request did not include an ID for Teddy #1."
   if (!teddy2) throw "Something went wrong: Request did not include an ID for Teddy #2."
@@ -75,7 +79,8 @@ export async function factoryOrder (input) {
             body: body,
             eyewear: eyewear,
             notes: notes,
-            name: name
+            name: name,
+            goldToken: goldToken,
           }
         },
       },
@@ -83,6 +88,7 @@ export async function factoryOrder (input) {
     memo: "" // Must be empty
   }
   //console.log(JSON.stringify(permitTx, null, 2));
+  
   //verify signature
   if (!sig.verifySignature(permitTx, signature)) throw "Provided permit was unable to be verified.";
   
@@ -90,11 +96,11 @@ export async function factoryOrder (input) {
   if (await hashInDb(tx_hash)) throw `TX Hash ${tx_hash} is already in database!`
 
   const sql = `INSERT INTO factory_orders(
-    owner, tx_hash, teddy1, teddy2, teddy3, name, final_base, final_face, final_color, final_background, final_hand, final_head, final_body, final_eyewear, notes)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+    owner, tx_hash, teddy1, teddy2, teddy3, goldToken, name, final_base, final_face, final_color, final_background, final_hand, final_head, final_body, final_eyewear, notes)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
   const rows = await query(
     sql,
-    [owner, tx_hash, teddy1, teddy2, teddy3, name, base, face, color, background, hand, head, body, eyewear, notes],
+    [owner, tx_hash, teddy1, teddy2, teddy3, goldToken, name, base, face, color, background, hand, head, body, eyewear, notes],
   );
   const data = emptyOrRows(rows);
 

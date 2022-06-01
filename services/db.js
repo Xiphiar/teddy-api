@@ -74,6 +74,7 @@ async function createFactoryTable() {
     teddy1 varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     teddy2 varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     teddy3 varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    goldToken VARCHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     name varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     final_base varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     final_face varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
