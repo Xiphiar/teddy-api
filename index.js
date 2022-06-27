@@ -33,6 +33,7 @@ import teddyRouter from './routes/teddys.js';
 import goldTokenRouter from './routes/gold_token.js';
 import addDataRouter from './routes/add_data.js';
 import verifyDiscordRouter from './routes/verify_discord.js';
+import factoryRouter from './routes/factory.route.js';
 
 
 /*
@@ -75,10 +76,10 @@ const allowedOrigins = [
 
 const matchDomain = wcmatch(allowedOrigins, { separator: '.' })
 
-console.log(matchDomain('https://1539a835.teddy-site.pages.dev'.replace(/^https?:\/\//, '')));
-console.log(matchDomain('https://midnightteddyclub.art'.replace(/^https?:\/\//, '')));
-console.log(matchDomain('https://www.midnightteddyclub.art'.replace(/^https?:\/\//, '')));
-console.log(matchDomain('https://teddy-admin.pages.dev'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://1539a835.teddy-site.pages.dev'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://midnightteddyclub.art'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://www.midnightteddyclub.art'.replace(/^https?:\/\//, '')));
+// console.log(matchDomain('https://teddy-admin.pages.dev'.replace(/^https?:\/\//, '')));
 
 app.use(cors({
   origin: function(origin, callback){
@@ -103,9 +104,10 @@ app.use('/mintGoldToken', goldTokenRouter);
 app.use('/checkGoldToken', goldTokenRouter);
 app.use('/addData', addDataRouter);
 app.use('/verifydiscord', verifyDiscordRouter);
+app.use('/factory', factoryRouter);
 
 app.get('/', (req, res) => {
-  res.json({'message': 'ok'});
+  res.json({'available_routes': ['/teddy', '/rarity', '/verifydiscord']});
 })
 
 app.use((err, req, res, next) => {
