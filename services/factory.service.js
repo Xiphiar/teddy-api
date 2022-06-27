@@ -151,6 +151,65 @@ export async function getOrders (input) {
   return {orders: data}
 }
 
+export async function cancelOrder (input) {
+  const signature = JSON.parse(input.signature)
+  //verify address is authorized
+  const address = base64PubkeyToAddress(signature.pub_key.value, "secret")
+  if (!factoryAuthorized.includes(address)) throw `${address} is not authorized to perform this function.`
+
+  //verify teddy ID is present and valid
+  console.log(input)
+  const orderId = parseInt(input.order_id?.trim())
+  //console.log(teddyId)
+  if (!input.order_id || !orderId) throw "Request does not include an Order ID or provided ID is invalid.";
+
+  //verify return hash is present and valid
+  if (!input.return_hash || !input.return_hash.trim()) throw "Request does not include a base design.";
+  const returnHash = input.return_hash.trim();
+
+
+  // unsigned permit to verify
+  const permitTx = {
+    chain_id: process.env.CHAIN_ID,
+    account_number: "0", // Must be 0
+    sequence: "0", // Must be 0
+    fee: {
+      amount: [{ denom: "uscrt", amount: "0" }], // Must be 0 uscrt
+      gas: "1", // Must be 1
+    },
+    msgs: [
+    {
+        type: "cancel_order", // Must be "query_permit"
+        value: {
+            permit_name: input.permit_name,
+            allowed_destinations: JSON.parse(input.allowed_destinations),
+            cancel_props: {
+                order_id: orderId,
+                return_hash: returnHash,
+            }
+        },
+    },
+    ],
+    memo: "" // Must be empty
+}
+  console.log(JSON.stringify(permitTx, null, 2))
+
+  //verify signature
+  if (!sig.verifySignature(permitTx, signature)) throw "Provided permit was unable to be verified.";
+
+  try {
+    const orderSql = `UPDATE factory_orders SET completed=1, canceled=? WHERE id = ?`
+    const rows = await query(
+        orderSql,
+        [returnHash, orderId],
+    );
+  } catch(e) {
+      throw new Error(`Couldnt update order in DB. ${e}`)
+  }
+
+  return {message: "OK"}
+}
+
 
 async function hashInDb(txHash){
   const sql = "SELECT * FROM `factory_orders` WHERE `tx_hash` = ?;"
@@ -164,5 +223,6 @@ async function hashInDb(txHash){
 
 export default {
   factoryOrder,
-  getOrders
+  getOrders,
+  cancelOrder
 }
