@@ -156,7 +156,7 @@ async function setDb(tokenId, tokenSn, teddyId, recipient, issuer, notes){
 
 }
 
-async function inDb(teddyId){
+export async function inDb(teddyId){
   const sql = "SELECT * FROM `gold_tokens` WHERE `teddy_id` = ?;"
   const rows = await query(
     sql,

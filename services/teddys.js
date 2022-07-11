@@ -12,6 +12,7 @@ import config from '../config.js';
 import app from '../index.js';
 import request from 'request';
 import { getTotal } from './rarity.js'
+import { inDb } from './gold_token.js'
 
 const regex = /[^A-Za-z0-9, ]/g;
 
@@ -69,11 +70,13 @@ export async function getSingle(input){
         [input, input]
       );
       const data = emptyOrRows(rows);
+      const gtIssued = await inDb(input);
 
       if ( data.length === 0 ) {
           var returnEr = {'error': 'unknown_input'};
           return(returnEr);
       } else {
+          data[0].gold_token = + gtIssued;
           return data[0];
       }
 }
