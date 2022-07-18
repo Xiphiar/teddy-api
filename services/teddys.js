@@ -63,7 +63,7 @@ export async function getMultiple(page = 1, sort = "numberasc", base = null){
 
 export async function getSingle(input){
       const rows = await query(
-        `Select id, pub_base_design as base_design, pub_url, burnt, 1of1,
+        `Select id, pub_base_design as base_design, pub_url, burnt, 1of1, dao_value
         (SELECT TeddyRank from (SELECT id, RANK() OVER (ORDER BY total_rarity DESC) 'TeddyRank' FROM all_data WHERE burnt=0) as rankdata WHERE id = ?) as teddyrank
         from all_data
         where id = ?`,
