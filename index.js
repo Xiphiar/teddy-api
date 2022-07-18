@@ -71,7 +71,8 @@ const allowedOrigins = [
   'teddy-admin.pages.dev',
   '*.teddy-admin.pages.dev',
   'localhost:3000',
-  'localhost:3001'
+  'localhost:3001',
+  '*.trivium.network'
 ];
 
 const matchDomain = wcmatch(allowedOrigins, { separator: '.' })
