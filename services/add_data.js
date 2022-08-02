@@ -16,7 +16,6 @@ export async function addTeddy (input) {
 
     //verify teddy ID is present and valid
     const teddyId = input.nft_id?.trim()
-    //console.log(teddyId)
     if (!input.nft_id | !teddyId || parseInt(teddyId) < 1) throw "Request does not include a Teddy ID or provided ID is invalid.";
 
     //verify base design is present and valid
@@ -33,7 +32,7 @@ export async function addTeddy (input) {
     const pubUrl = input.pub_url || null
     const daoValue = input.dao_value || null
     const oneofone = parseInt(input["1of1"]) || 0
-    const order = input.order ? JSON.parse(input.order) : undefined
+    const order = (input.order !== 'false' && input.order !== 'undefined') ? JSON.parse(input.order) : false
 
     // unsigned permit to verify
     let permitTx;
@@ -72,8 +71,8 @@ export async function addTeddy (input) {
             memo: "" // Must be empty
         }
     } else {
-        if (!order) throw 'Request didnt include factory order information. non one-of-one mints must be factory orders.'
-        console.log("Order", order);
+        // if (!order) throw 'Request didnt include factory order information. non one-of-one mints must be factory orders.'
+        if (order) console.log("Order", order);
         permitTx = {
             chain_id: process.env.CHAIN_ID,
             account_number: "0", // Must be 0
@@ -101,10 +100,10 @@ export async function addTeddy (input) {
                     pub_url: pubUrl,
                     dao_value: daoValue,
                     "1of1": oneofone,
-                    order: {
+                    order: order ? {
                         id: order.id,
                         teddies: [order.teddy1, order.teddy2, order.teddy3]
-                    }
+                    } : false,
                 }
                 },
             },
@@ -157,7 +156,7 @@ export async function addTeddy (input) {
         throw `Internal Error:\nPlease send the following information to Xiphiar:\nFailed to add teddy to database.\nData: ${JSON.stringify(params)}\nError: ${err}`
     }
 
-    if (!oneofone){
+    if (!oneofone && order){
         await completeOrder(order.id, [order.teddy1, order.teddy2, order.teddy3], teddyId);
     }
 
