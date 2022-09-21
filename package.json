@@ -25,7 +25,7 @@
     "mysql2": "^2.2.5",
     "path": "^0.12.7",
     "request": "^2.88.2",
-    "secretjs": "^1.2.0-beta.66",
+    "secretjs": "^1.4.0-alpha.10",
     "wildcard-match": "^5.1.2"
   },
   "devDependencies": {
