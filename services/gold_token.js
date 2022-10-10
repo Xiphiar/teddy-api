@@ -100,7 +100,7 @@ export async function mintToken (input) {
       msg: mintMsg
     },
     {
-      gasLimit: 100_000,
+      gasLimit: 300_000,
       gasPriceInFeeDenom: process.env.GAS_PRICE,
       feeDenom: "uscrt",
     },
