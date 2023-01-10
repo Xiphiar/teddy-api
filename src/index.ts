@@ -1,40 +1,18 @@
-/*
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require("path");
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const morgan = require("morgan");
-var http = require('http');
-var https = require('https');
-var fs = require('fs');
-const teddyRouter = require('./routes/teddy.cjs');
-const socialsRouter = require('./routes/socials.cjs');
-
-const helmet = require('helmet');
-*/
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import path from "path";
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import morgan from "morgan";
 import http from 'http';
-import https from 'https';
-import fs from 'fs';
 import helmet from 'helmet';
 import wcmatch from 'wildcard-match'
 
 import { setupDb } from './services/db.js';
-
 import rarityRouter from './routes/rarity.js';
 import teddyRouter from './routes/teddys.js';
 import goldTokenRouter from './routes/gold_token.js';
 import addDataRouter from './routes/add_data.js';
 import verifyDiscordRouter from './routes/verify_discord.js';
 import factoryRouter from './routes/factory.route.js';
-
 
 /*
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
@@ -45,15 +23,7 @@ process.env['HTTPS_PROXY'] = 'http://127.0.0.1:8866';
 setupDb();
 
 const app = express();
-const port = process.env.PORT || 9176;
-
-/*
-const sslPort = process.env.PORT || 3443;
-var sslOptions = {
-  key: fs.readFileSync(path.resolve(__dirname, "./key.pem")),
-  cert: fs.readFileSync(path.resolve(__dirname, "./cert.pem"))
-};
-*/
+const port: string | number = process.env.PORT || 9176;
 
 // Logging
 //app.use(morgan('dev'));
@@ -76,11 +46,6 @@ const allowedOrigins = [
 ];
 
 const matchDomain = wcmatch(allowedOrigins, { separator: '.' })
-
-// console.log(matchDomain('https://1539a835.teddy-site.pages.dev'.replace(/^https?:\/\//, '')));
-// console.log(matchDomain('https://midnightteddyclub.art'.replace(/^https?:\/\//, '')));
-// console.log(matchDomain('https://www.midnightteddyclub.art'.replace(/^https?:\/\//, '')));
-// console.log(matchDomain('https://teddy-admin.pages.dev'.replace(/^https?:\/\//, '')));
 
 app.use(cors({
   origin: function(origin, callback){

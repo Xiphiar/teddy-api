@@ -7,7 +7,7 @@ import { getOffset, emptyOrRows } from '../utils/helper.js';
 import { getRarity } from "./rarity.js";
 
 const blacklisted = ["secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9ptDUMMY"]
-const factoryAuthorized = ['secret14fa9jm9g5mjs35yxarh057lesy4zszw5gavcun','secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9pt55nzz']
+const factoryAuthorized = ['secret14fa9jm9g5mjs35yxarh057lesy4zszw5gavcun','secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9pt55nzz','secret1tmgvz9r9q0nlv00kclksvlk903pz9gjn2vj8yr']
 
 export async function factoryOrder (input) {
   const owner = input.owner.trim() || null
