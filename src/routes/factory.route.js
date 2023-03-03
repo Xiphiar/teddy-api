@@ -24,6 +24,18 @@ router.post('/', async(req, res, next) => {
   }
 })
 
+router.post('/trait_order', async(req, res, next) => {
+  try {
+    const proxyHost = req.headers["x-forwarded-host"];
+    const host = proxyHost ? proxyHost : req.headers.host;
+
+    res.json(await factoryService.traitOrder(req.body))
+  } catch (err) {
+    console.log("USE TRAIT FACTORY ERROR: ", err.message || err)
+    next(err);
+  }
+})
+
 router.post('/orders', async(req, res, next) => {
   try {
     const proxyHost = req.headers["x-forwarded-host"];

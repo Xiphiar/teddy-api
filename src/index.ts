@@ -40,8 +40,7 @@ const allowedOrigins = [
   '*.teddy-site.pages.dev',
   'teddy-admin.pages.dev',
   '*.teddy-admin.pages.dev',
-  'localhost:3000',
-  'localhost:3001',
+  'localhost:*',
   '*.trivium.network'
 ];
 

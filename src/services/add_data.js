@@ -9,6 +9,7 @@ import { getRarity } from "./rarity.js";
 const authorized = ["secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9pt55nzz"]
 
 export async function addTeddy (input) {
+    console.log(input)
     const signature = JSON.parse(input.signature)
     //verify address is authorized
     const address = base64PubkeyToAddress(signature.pub_key.value, "secret")

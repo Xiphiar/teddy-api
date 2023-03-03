@@ -1,5 +1,5 @@
 
-import sig from "@tendermint/sig";
+import * as sig from "@tendermint/sig";
 import { base64PubkeyToAddress } from "secretjs";
 
 import { query } from './db.js';
@@ -9,7 +9,61 @@ import { getRarity } from "./rarity.js";
 const blacklisted = ["secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9ptDUMMY"]
 const factoryAuthorized = ['secret14fa9jm9g5mjs35yxarh057lesy4zszw5gavcun','secret1s7hqr22y5unhsc9r4ddnj049ltn9sa9pt55nzz','secret1tmgvz9r9q0nlv00kclksvlk903pz9gjn2vj8yr']
 
-export async function factoryOrder (input) {
+interface TraitOrder {
+  owner: string;
+  teddy1: string;
+  teddy2: string;
+  tx_hash: string;
+  notes: string;
+}
+
+export async function traitOrder ({owner, tx_hash, teddy1, teddy2, notes}: TraitOrder) {
+  owner = owner.trim()
+  if (!owner) throw "Something went wrong: Request did not include an owner address."
+
+  if (blacklisted.includes(owner)) throw `${owner} is blacklisted from this API.`
+
+
+  if (!tx_hash) throw "Something went wrong: Request did not include an TX Hash."
+  if (!teddy1) throw "Something went wrong: Request did not include an ID for Teddy #1."
+  if (!teddy2) throw "Something went wrong: Request did not include an ID for Teddy #2."
+ 
+  //verify tx hash is not already in DB
+  if (await hashInDb(tx_hash, true)) throw `TX Hash ${tx_hash} is already in database!`
+
+  const sql = `INSERT INTO trait_factory_orders(
+    owner, tx_hash, teddy1, teddy2, notes)
+    VALUES (?,?,?,?,?)`
+  const rows = await query(
+    sql,
+    [owner, tx_hash, teddy1, teddy2, notes],
+  );
+  const data = emptyOrRows(rows);
+
+  return {message: "OK"}
+
+}
+
+interface FactoryOrder {
+  owner: string;
+  teddy1: string;
+  teddy2: string;
+  teddy3: string;
+  tx_hash: string;
+  notes: string;
+  name: string;
+  base: string;
+  face: string;
+  color: string;
+  background: string;
+  hand: string;
+  head: string;
+  body: string;
+  eyewear: string;
+  goldToken: string;
+}
+
+export async function factoryOrder (input: FactoryOrder) {
   const owner = input.owner.trim() || null
   if (!owner) throw "Something went wrong: Request did not include an owner address."
 
@@ -18,7 +72,7 @@ export async function factoryOrder (input) {
   //verify address is not blacklisted
   //const address = base64PubkeyToAddress(signature.pub_key.value, "secret")
 
-  if (blacklisted.includes(owner)) throw `${address} is blacklisted from this API.`
+  if (blacklisted.includes(owner)) throw `${owner} is blacklisted from this API.`
 
 
 
@@ -210,9 +264,8 @@ export async function cancelOrder (input) {
   return {message: "OK"}
 }
 
-
-async function hashInDb(txHash){
-  const sql = "SELECT * FROM `factory_orders` WHERE `tx_hash` = ?;"
+async function hashInDb(txHash: string, traitFactory = false){
+  const sql = traitFactory ? "SELECT * FROM `trait_factory_orders` WHERE `tx_hash` = ?;" : "SELECT * FROM `factory_orders` WHERE `tx_hash` = ?;"
   const rows = await query(
     sql,
     [txHash],
@@ -223,6 +276,7 @@ async function hashInDb(txHash){
 
 export default {
   factoryOrder,
+  traitOrder,
   getOrders,
   cancelOrder
 }
